@@ -15,24 +15,24 @@ const SignupPage = () => {
   }
 
 
-  console.log(signUpSuccess);
+  
 
   return (
     <div className="container">
       <div className="card">
         <p className="login">Hey Sign up</p>
         <div className="inputBox">
-          <input type="text" required={true} value={fullName} onChange={e => setFullName(e.target.value)} />
+          <input type="text" required value={fullName} onChange={e => setFullName(e.target.value)} />
           <span className="user">Full Name</span>
         </div>
 
         <div className="inputBox">
-          <input type="text" required={true} value={email} onChange={e => setEmail(e.target.value)} />
+          <input type="text" required value={email} onChange={e => setEmail(e.target.value)} />
           <span className="user">Email</span>
         </div>
 
         <div className="inputBox">
-          <input type="password" required={true} value={password} onChange={e => setPassword(e.target.value)} />
+          <input type="password" required value={password} onChange={e => setPassword(e.target.value)} />
           <span>Password</span>
         </div>
 
