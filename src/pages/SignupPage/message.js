@@ -2,7 +2,7 @@ import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Message = (isSuccess, user) => {
+const Message = (isSuccess) => {
   if (isSuccess) {
     toast.success(`Woohooo!! sign up is successful.`, {
       position: "top-right",
