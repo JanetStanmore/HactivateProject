@@ -1,10 +1,11 @@
 import React from "react";
+import SignupPage from "./pages/SignupPage";
 
 
 const App = () => {
 
 
-  return <div> App Component</div>
+  return <SignupPage />
 };
 
 
