@@ -13,10 +13,7 @@ const SignupPage = () => {
     const status = signUpWithEmail(fullName, email, password);
     setSignUpSuccess(status);
   }
-
-
   
-
   return (
     <div className="container">
       <div className="card">
