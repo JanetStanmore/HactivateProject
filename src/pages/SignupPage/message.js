@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Message = (isSuccess, user) => {
   if (isSuccess) {
-    toast.success(`Woohooo!! sign up is successful.`, {
+    toast.success("Woohooo!! sign up is successful.", {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -15,7 +15,7 @@ const Message = (isSuccess, user) => {
       theme: "light",
     });
   } else {
-    toast.error(`Oh Snap! SIgn up process failed. Please try again later.`, {
+    toast.error("Oh Snap! SIgn up process failed. Please try again later.", {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
