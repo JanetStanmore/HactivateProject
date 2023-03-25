@@ -17,6 +17,7 @@ export default function signUpWithEmail(fullName, email, password) {
           userId: authData?.user?.uid,
         };
         addUserDocument(userData);
+        window.sessionStorage.setItem("userId", authData?.user.uid);
         return true;
       }
       return false;

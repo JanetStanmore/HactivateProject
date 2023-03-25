@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import signUpWithEmail from "../../services/signUpWithEmail";
 import "./index.css";
 import Message from "./message";
+import { Link } from "react-router-dom";
 
 const SignupPage = () => {
   const [fullName, setFullName] = useState("");
@@ -34,6 +35,10 @@ const SignupPage = () => {
         </div>
 
         <button className="enter" onClick={handleSubmit}>Register</button>
+
+        <div className="footer">
+          <Link to="/signin"><p>Login here</p></Link>
+        </div>
       </div>
 
       {
