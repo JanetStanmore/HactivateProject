@@ -1,6 +1,5 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import PrivateRoute from "./utils/checkAuth";
 import AuthChecker from "./utils/checkAuth";
 
 const SignupPage = lazy(() => import("./pages/SignupPage"));
