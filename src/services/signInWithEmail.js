@@ -12,5 +12,6 @@ async function getUserData(userId) {
 
 export default async function signInWithEmail(email, password) {
     const authData = await auth.signInWithEmailAndPassword(email, password);
+    window.sessionStorage.setItem("userId", authData.user.uid);
     return getUserData(authData.user.uid);
 }
