@@ -8,7 +8,7 @@ import "./index.css";
 
 const List = ({ data }) => {
   const isSecurity = (window.sessionStorage.getItem("isSecurity")) === "true" ? true : false;
-  console.log(isSecurity);
+  
   return (
     <div className="card">
       <div className="left-content">
@@ -41,7 +41,7 @@ const HomePage = () => {
     setData(orders);
   };
 
-  console.log(data);
+  
   return (
     <div className="container">
       <div className="top-content">

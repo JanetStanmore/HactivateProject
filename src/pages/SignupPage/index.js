@@ -50,9 +50,9 @@ const SignupPage = () => {
         }}>
           <label>Is Security Personnel ? </label>
           <label className="checkbox-btn ms-5">
-            <label htmlFor="checkbox"></label>
+            <label htmlFor="checkbox" />
             <input id="checkbox" type="checkbox" value={isSecurity} onChange={() => setIsSecurity(!isSecurity)} />
-            <span className="checkmark"></span>
+            <span className="checkmark" />
           </label>
         </div>
 

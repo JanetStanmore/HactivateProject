@@ -26,5 +26,5 @@ export const sendMail = async (user) => {
        }
        
        let response = await axios.request(reqOptions);
-       console.log(response.data);
+       
 }

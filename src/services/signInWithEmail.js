@@ -2,9 +2,9 @@ import { auth, db } from "../config/firebase.config";
 
 
 export async function getUserData(userId) {
-    console.log(userId)
+    
     const docRef = await db.collection("users").doc(userId).get();
-    console.log(docRef.data())
+    
     if(docRef.exists) {
         return docRef.data();
     }
@@ -23,7 +23,7 @@ export default async function signInWithEmail(email, password) {
        const authData = await auth.signInWithEmailAndPassword(email, password);
        window.sessionStorage.setItem("userId", authData.user.uid);
        const userData = await getUserData(authData.user.uid);
-       console.log(userData)
+       
        window.sessionStorage.setItem("isSecurity", userData?.isSecurity || false); 
        return {
         isSuccessful: true,
