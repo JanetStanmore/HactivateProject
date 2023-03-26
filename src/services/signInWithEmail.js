@@ -1,17 +1,43 @@
 import { auth, db } from "../config/firebase.config";
 
 
-async function getUserData(userId) {
+export async function getUserData(userId) {
+    console.log(userId)
     const docRef = await db.collection("users").doc(userId).get();
+    console.log(docRef.data())
     if(docRef.exists) {
         return docRef.data();
     }
     return null;
 }
 
+function getRefinedFirebaseAuthErrorMessage(error) {
+    return error
+      .replace('Firebase: ', '')
+      .replace(/\(auth.*\)\.?/, '');
+  }
+
 
 export default async function signInWithEmail(email, password) {
-    const authData = await auth.signInWithEmailAndPassword(email, password);
-    window.sessionStorage.setItem("userId", authData.user.uid);
-    return getUserData(authData.user.uid);
+    try {
+       const authData = await auth.signInWithEmailAndPassword(email, password);
+       window.sessionStorage.setItem("userId", authData.user.uid);
+       const userData = await getUserData(authData.user.uid);
+       console.log(userData)
+       window.sessionStorage.setItem("isSecurity", userData?.isSecurity || false); 
+       return {
+        isSuccessful: true,
+        message: "Sign in successful",
+        data: userData
+       }
+    } catch (error) {
+        console.log(error.message)
+       const errorMesssage = getRefinedFirebaseAuthErrorMessage(error.message);
+        return {
+            isSuccessful: false,
+            message: errorMesssage,
+            data: null
+        }
+    }
+    
 }
