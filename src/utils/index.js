@@ -1,5 +1,7 @@
-import PrivateRoute from "./PrivateRoute";
+import AuthChecker from "./checkAuth";
+import SecurityChecker from "./SecurityAuth";
 
 export {
-    PrivateRoute
+    AuthChecker,
+    SecurityChecker
 };
