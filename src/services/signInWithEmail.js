@@ -18,14 +18,14 @@ export default async function signInWithEmail(email, password) {
     window.sessionStorage.setItem("userId", data.user.id);
     const userData = await getUserData(data.user.id);
 
-    window.sessionStorage.setItem("isSecurity", userData?.isSecurity || false);
+    window.sessionStorage.setItem("isSecurity", String(userData?.isSecurity === true));
+    window.sessionStorage.setItem("role", userData?.role ?? "student");
     return {
       isSuccessful: true,
       message: "Sign in successful",
       data: userData
     };
   } catch (error) {
-    console.log(error.message);
     const errorMessage = getRefinedAuthErrorMessage(error);
     return {
       isSuccessful: false,

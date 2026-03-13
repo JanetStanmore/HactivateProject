@@ -6,8 +6,9 @@ import { getAllOrders } from "../../services/orderManagement";
 import "./index.css";
 
 const List = ({ data }) => {
-  const isSecurity = (window.sessionStorage.getItem("isSecurity")) === "true" ? true : false;
-  
+  const role = window.sessionStorage.getItem('role');
+  const canNotify = role === 'guard' || role === 'admin';
+
   return (
     <div className="card">
       <div className="left-content">
@@ -16,7 +17,7 @@ const List = ({ data }) => {
           <p className="cardBody">{data.orderId}</p>
         </div>
       </div>
-      {isSecurity && (
+      {canNotify && (
         <div className="right-content">
           <button onClick={() => sendMail(data.userEmail)}>
             <span className="fa-check fa-solid" />
@@ -60,6 +61,13 @@ const HomePage = () => {
             <span className="fa-solid fa-user" />
           </button>
         </div>
+        {window.sessionStorage.getItem('role') === 'admin' && (
+          <div className="ms-5">
+            <button onClick={() => navigate("/admin")}>
+              <span className="fa-solid fa-cog" />
+            </button>
+          </div>
+        )}
       </div>
       <div className="bottom-content">
         {data &&

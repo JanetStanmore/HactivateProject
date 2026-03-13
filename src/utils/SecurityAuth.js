@@ -1,18 +1,22 @@
 import React from 'react';
-import {useLocation, Navigate} from "react-router-dom";
+import { useLocation, Navigate } from 'react-router-dom';
 
+interface SecurityCheckerProps {
+  children: React.ReactNode;
+}
 
-const SecurityChecker = ({children}) => {
-    const userId = window.sessionStorage.getItem("userId") || null;
-    const isSecurity = window.sessionStorage.getItem("isSecurity") ? true : false;
+const SecurityChecker: React.FC<SecurityCheckerProps> = ({ children }) => {
+  const userId = window.sessionStorage.getItem('userId');
+  const role = window.sessionStorage.getItem('role');
+  const location = useLocation();
 
-    const location = useLocation();
-    
-    if(!userId || userId === null || userId === undefined || isSecurity === null || isSecurity === false)
-        return <Navigate to="/signin" state={{ from: location }} />
+  const isGuardOrAdmin = role === 'guard' || role === 'admin';
 
-    return children;
+  if (!userId || !isGuardOrAdmin) {
+    return <Navigate to="/signin" state={{ from: location }} />;
+  }
+
+  return <>{children}</>;
 };
-
 
 export default SecurityChecker;

@@ -1,16 +1,19 @@
 import React from 'react';
-import {useLocation, Navigate} from "react-router-dom";
+import { useLocation, Navigate } from 'react-router-dom';
 
+interface AuthCheckerProps {
+  children: React.ReactNode;
+}
 
-const AuthChecker = ({children}) => {
-    const userId = window.sessionStorage.getItem("userId") || null;
-    const location = useLocation();
-    
-    if(!userId || userId === null || userId === undefined)
-        return <Navigate to="/signin" state={{ from: location }} />
+const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
+  const userId = window.sessionStorage.getItem('userId');
+  const location = useLocation();
 
-    return children;
+  if (!userId) {
+    return <Navigate to="/signin" state={{ from: location }} />;
+  }
+
+  return <>{children}</>;
 };
-
 
 export default AuthChecker;

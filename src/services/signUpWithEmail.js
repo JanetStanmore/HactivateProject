@@ -30,7 +30,8 @@ export default async function signUpWithEmail(fullName, email, password, isSecur
     };
     await addUserDocument(userData);
     window.sessionStorage.setItem("userId", data.user.id);
-    window.sessionStorage.setItem("isSecurity", isSecurity);
+    window.sessionStorage.setItem("isSecurity", String(isSecurity));
+    window.sessionStorage.setItem("role", role);
     return true;
   }
   return false;

@@ -1,11 +1,13 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthChecker} from "./utils";
+import { AuthChecker, SecurityChecker } from "./utils";
+import AdminChecker from "./utils/AdminChecker";
 
 const SignupPage = lazy(() => import("./pages/SignupPage"));
 const SigninPage = lazy(() => import("./pages/SigninPage"));
 const HomePage = lazy(() => import("./pages/HomePage"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 
 const suspenseFallbackStyle: React.CSSProperties = {
   display: "flex",
@@ -61,6 +63,18 @@ const App: React.FC = () => {
                 <ProfilePage />
               </Suspense>
             </AuthChecker>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <AdminChecker>
+              <Suspense
+                fallback={<div style={suspenseFallbackStyle}>Loading</div>}
+              >
+                <AdminDashboard />
+              </Suspense>
+            </AdminChecker>
           }
         />
       </Routes>
