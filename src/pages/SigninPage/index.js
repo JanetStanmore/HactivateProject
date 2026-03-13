@@ -11,10 +11,12 @@ const SigninPage = () => {
   const navigate = useNavigate();
 
 
-  function handleSubmit() {
-    const status = signInWithEmail( email, password);
+  async function handleSubmit() {
+    const status = await signInWithEmail(email, password);
     setSignInSuccess(status);
-    navigate("/")
+    if (status.isSuccessful) {
+      navigate("/");
+    }
   }
   
   return (

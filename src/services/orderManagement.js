@@ -1,40 +1,35 @@
-import { db } from "../config/firebase.config";
+import { supabase } from "../config/supabase.config";
 
 export async function getAllOrders() {
-  const collectionQuerySnapshot = await db.collection("orders").get();
-  let orders = [];
-  collectionQuerySnapshot.forEach((document) => orders.push(document.data()));
-  return orders;
+  const { data, error } = await supabase.from("orders").select("*");
+  if (error) return [];
+  return data;
 }
 
 export async function getAOrder(orderId) {
-    try {
-      const docRef = await db.collection("orders").doc(orderId).get();
-      if (docRef.exists) {
-        return docRef.data();
-      }
-      return null;
-    } catch (error) {
-      return false;
-    }
+  try {
+    const { data, error } = await supabase.from("orders").select("*").eq("id", orderId).single();
+    if (error) return null;
+    return data;
+  } catch (error) {
+    return null;
   }
-
+}
 
 export async function filterOrdersByUser(userId) {
-    try {
-        const collectionQuerySnapshot = await db.collection("orders").where("userId", "==", userId).get();
-        let orders = [];
-        collectionQuerySnapshot.forEach((document) => orders.push(document.data()));
-        return orders;
-    } catch (error) {
-        return false;
-    }
+  try {
+    const { data, error } = await supabase.from("orders").select("*").eq("userId", userId);
+    if (error) return [];
+    return data;
+  } catch (error) {
+    return [];
+  }
 }
 
 export async function createAOrder(orderData) {
   try {
-    const collectionRef = db.collection("orders");
-    await collectionRef.doc(orderData?.orderId).set(orderData);
+    const { data, error } = await supabase.from("orders").insert(orderData);
+    if (error) return false;
     return true;
   } catch (error) {
     return false;
@@ -43,8 +38,8 @@ export async function createAOrder(orderData) {
 
 export async function updateAOrder(orderId, orderData) {
   try {
-    const collectionRef = db.collection("orders");
-    await collectionRef.doc(orderId).update(orderData);
+    const { data, error } = await supabase.from("orders").update(orderData).eq("id", orderId);
+    if (error) return false;
     return true;
   } catch (error) {
     return false;
@@ -52,11 +47,11 @@ export async function updateAOrder(orderId, orderData) {
 }
 
 export async function deleteOrder(orderId) {
-    try {
-       const docRef = await db.collection("orders").doc(orderId);
-       await docRef.delete();
-       return true;
-    } catch (error) {
-        return true;
-    }
+  try {
+    const { data, error } = await supabase.from("orders").delete().eq("id", orderId);
+    if (error) return false;
+    return true;
+  } catch (error) {
+    return false;
+  }
 }

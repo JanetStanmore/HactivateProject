@@ -12,10 +12,14 @@ const SignupPage = () => {
   const [signUpSuccess, setSignUpSuccess] = useState("");
   const navigate = useNavigate();
 
-  function handleSubmit() {
-    const status = signUpWithEmail(fullName, email, password, isSecurity);
-    navigate("/");
-    setSignUpSuccess(status);  
+  async function handleSubmit() {
+    const status = await signUpWithEmail(fullName, email, password, isSecurity);
+    if (status) {
+      navigate("/");
+      setSignUpSuccess("success");
+    } else {
+      setSignUpSuccess("error");
+    }
   }
 
   return (

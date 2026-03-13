@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import _ from "lodash";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../config/firebase.config";
+import { supabase } from "../../config/supabase.config";
 import { sendMail } from "./sendMail";
 import { getAllOrders } from "../../services/orderManagement";
 import "./index.css";
@@ -57,7 +57,7 @@ const HomePage = () => {
           </button>
         </div>
         <div className="ms-5">
-          <button onClick={navigate("/me")}>
+          <button onClick={() => navigate("/me")}>
             <span className="fa-solid fa-user" />
           </button>
         </div>
@@ -78,7 +78,7 @@ const HomePage = () => {
 };
 
 async function signout() {
-  await auth?.signOut();
+  await supabase.auth.signOut();
   window.sessionStorage.clear();
   window.location.reload();
   return true;

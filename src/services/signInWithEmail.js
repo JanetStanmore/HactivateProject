@@ -1,43 +1,36 @@
-import { auth, db } from "../config/firebase.config";
-
+import { supabase } from "../config/supabase.config";
 
 export async function getUserData(userId) {
-    
-    const docRef = await db.collection("users").doc(userId).get();
-    
-    if(docRef.exists) {
-        return docRef.data();
-    }
-    return null;
+  const { data, error } = await supabase.from('users').select('*').eq('userId', userId).single();
+  if (error) return null;
+  return data;
 }
 
-function getRefinedFirebaseAuthErrorMessage(error) {
-    return error
-      .replace('Firebase: ', '')
-      .replace(/\(auth.*\)\.?/, '');
-  }
-
+function getRefinedAuthErrorMessage(error) {
+  return error.message.replace('Invalid login credentials', 'Invalid email or password');
+}
 
 export default async function signInWithEmail(email, password) {
-    try {
-       const authData = await auth.signInWithEmailAndPassword(email, password);
-       window.sessionStorage.setItem("userId", authData.user.uid);
-       const userData = await getUserData(authData.user.uid);
-       
-       window.sessionStorage.setItem("isSecurity", userData?.isSecurity || false); 
-       return {
-        isSuccessful: true,
-        message: "Sign in successful",
-        data: userData
-       }
-    } catch (error) {
-        console.log(error.message)
-       const errorMesssage = getRefinedFirebaseAuthErrorMessage(error.message);
-        return {
-            isSuccessful: false,
-            message: errorMesssage,
-            data: null
-        }
-    }
-    
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+
+    window.sessionStorage.setItem("userId", data.user.id);
+    const userData = await getUserData(data.user.id);
+
+    window.sessionStorage.setItem("isSecurity", userData?.isSecurity || false);
+    return {
+      isSuccessful: true,
+      message: "Sign in successful",
+      data: userData
+    };
+  } catch (error) {
+    console.log(error.message);
+    const errorMessage = getRefinedAuthErrorMessage(error);
+    return {
+      isSuccessful: false,
+      message: errorMessage,
+      data: null
+    };
+  }
 }

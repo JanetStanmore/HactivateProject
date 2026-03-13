@@ -1,20 +1,8 @@
-import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
-import "firebase/compat/firestore";
+import { createClient } from '@supabase/supabase-js';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyB8T-_krtW7DiKt0be7fVbJo151hYN-OFE",
-  authDomain: "minutemen-5ca22.firebaseapp.com",
-  projectId: "minutemen-5ca22",
-  storageBucket: "minutemen-5ca22.appspot.com",
-  messagingSenderId: "58415147398",
-  appId: "1:58415147398:web:e2d7ec552c4b209d1ce407",
-  measurementId: "G-6DZC3NGSV8",
-};
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
+const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
-firebase.initializeApp(firebaseConfig);
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-const auth = firebase.auth();
-const db = firebase.firestore();
-
-export { auth, db };
+export { supabase };
