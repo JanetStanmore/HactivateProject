@@ -9,11 +9,12 @@ const SignupPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSecurity, setIsSecurity] = useState(false);
+  const [role, setRole] = useState("student");
   const [signUpSuccess, setSignUpSuccess] = useState("");
   const navigate = useNavigate();
 
   async function handleSubmit() {
-    const status = await signUpWithEmail(fullName, email, password, isSecurity);
+    const status = await signUpWithEmail(fullName, email, password, isSecurity, role);
     if (status) {
       navigate("/");
       setSignUpSuccess("success");
@@ -44,6 +45,15 @@ const SignupPage = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
           <span className="user">Email</span>
+        </div>
+
+        <div className="inputBox">
+          <select value={role} onChange={(e) => setRole(e.target.value)} className="form-select">
+            <option value="student">Student</option>
+            <option value="guard">Guard</option>
+            <option value="admin">Admin</option>
+          </select>
+          <span className="user">Role</span>
         </div>
 
         <div style={{

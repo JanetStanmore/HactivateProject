@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthChecker, SecurityChecker } from "./utils";
+import { AuthChecker} from "./utils";
 
 const SignupPage = lazy(() => import("./pages/SignupPage"));
 const SigninPage = lazy(() => import("./pages/SigninPage"));

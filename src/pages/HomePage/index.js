@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import _ from "lodash";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../config/supabase.config";
 import { sendMail } from "./sendMail";
@@ -64,8 +63,8 @@ const HomePage = () => {
       </div>
       <div className="bottom-content">
         {data &&
-          data?.length > 0 &&
-          _.map(data, (order, i) => <List key={i} data={order} />)}
+          data.length > 0 &&
+          data.map((order, i) => <List key={i} data={order} />)}
 
         {(!data || data?.length < 1) && (
           <div>

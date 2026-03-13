@@ -6,7 +6,7 @@ async function addUserDocument(user) {
   return true;
 }
 
-export default async function signUpWithEmail(fullName, email, password, isSecurity) {
+export default async function signUpWithEmail(fullName, email, password, isSecurity, role = 'student') {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -25,7 +25,8 @@ export default async function signUpWithEmail(fullName, email, password, isSecur
       name: fullName,
       email: data.user.email,
       userId: data.user.id,
-      isSecurity
+      isSecurity,
+      role
     };
     await addUserDocument(userData);
     window.sessionStorage.setItem("userId", data.user.id);

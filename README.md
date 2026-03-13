@@ -1,53 +1,155 @@
-# Getting Started with Create React App
+# MinuteMen - Smart Parcel Notification System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[![CircleCI](https://circleci.com/gh/JanetStanmore/HactivateProject.svg?style=svg)](https://circleci.com/gh/JanetStanmore/HactivateProject)
+[![DeepSource](https://deepsource.io/gh/JanetStanmore/HactivateProject.svg/?label=active+issues&show_trend=true)](https://deepsource.io/gh/JanetStanmore/HactivateProject/?ref=repository-badge)
 
-## Available Scripts
+A modern, secure SaaS platform revolutionizing parcel delivery notifications for university students. Built with React, TypeScript, Tailwind CSS, and Supabase.
 
-In the project directory, you can run:
+## 🚀 Features
 
-### `npm start`
+### For Students
+- **Real-time Notifications**: Get instant email alerts when your parcels arrive at the gate.
+- **Order Tracking**: View all your orders with status updates (pending, arrived, picked up).
+- **Secure Authentication**: Email/password login with role-based access.
+- **Responsive Design**: Works seamlessly on desktop and mobile.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### For Security Personnel
+- **Admin Dashboard**: Mark parcels as arrived and send notifications.
+- **Order Management**: Full CRUD operations on orders.
+- **User Oversight**: View student orders for efficient delivery.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### For Admins
+- **System Management**: Oversee users, orders, and notifications.
+- **Analytics**: Track delivery metrics (future feature).
 
-### `npm test`
+## 🛠 Tech Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Frontend**: React 18, TypeScript, Tailwind CSS
+- **Backend**: Supabase (PostgreSQL, Auth, Real-time)
+- **Deployment**: Vercel/Netlify (CI/CD with CircleCI)
+- **Code Quality**: ESLint, Prettier, DeepSource
+- **Testing**: Jest, React Testing Library
 
-### `npm run build`
+## 📦 Installation & Setup
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Prerequisites
+- Node.js 18+ and npm
+- Or use GitHub Codespaces/Replit for instant setup
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Local Development
+```bash
+# Clone the repo
+git clone https://github.com/JanetStanmore/HactivateProject.git
+cd HactivateProject
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Install dependencies
+npm install
 
-### `npm run eject`
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your Supabase credentials
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# Start development server
+npm start
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Using Dev Container (VS Code)
+1. Open in VS Code
+2. Click "Reopen in Container"
+3. Run `npm start`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Using Cloud IDEs
+- **Replit**: Import from GitHub, run `npm start`
+- **GitHub Codespaces**: Create codespace, run `npm start`
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🗄 Database Setup
 
-## Learn More
+Run these SQL commands in your Supabase SQL Editor:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```sql
+-- Users table
+CREATE TABLE users (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  name text NOT NULL CHECK (length(name) >= 2 AND length(name) <= 50),
+  email text NOT NULL UNIQUE,
+  userId uuid NOT NULL UNIQUE,
+  role text DEFAULT 'student' CHECK (role IN ('student', 'guard', 'admin'))
+);
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+-- Orders table
+CREATE TABLE orders (
+  id text PRIMARY KEY,
+  userId uuid NOT NULL,
+  userName text NOT NULL,
+  userEmail text NOT NULL,
+  orderId text NOT NULL,
+  status text DEFAULT 'pending' CHECK (status IN ('pending', 'arrived', 'picked_up')),
+  notificationType text DEFAULT 'email' CHECK (notificationType IN ('email', 'sms', 'whatsapp')),
+  productName text,
+  carrier text,
+  trackingNumber text,
+  paymentStatus text DEFAULT 'paid' CHECK (paymentStatus IN ('paid', 'cod')),
+  deliveryTime timestamptz,
+  otp text,
+  arrivedAt timestamptz,
+  createdAt timestamptz DEFAULT now()
+);
 
-### Code Splitting
+-- Enable RLS
+ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+-- Policies (adjust as needed)
+CREATE POLICY "Users can view own data" ON users FOR SELECT USING (auth.uid() = userId);
+CREATE POLICY "Guards can view all orders" ON orders FOR SELECT USING (
+  EXISTS (SELECT 1 FROM users WHERE users.userId = auth.uid() AND users.role IN ('guard', 'admin'))
+);
+```
+
+## 🔧 Scripts
+
+- `npm start` - Start development server
+- `npm run build` - Build for production
+- `npm test` - Run tests
+- `npm run lint` - Check code quality
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+1. Connect GitHub repo to Vercel
+2. Set environment variables in Vercel dashboard
+3. Deploy automatically on push
+
+### Netlify
+1. Connect repo
+2. Set build command: `npm run build`
+3. Set publish directory: `build`
+
+## 🤝 Contributing
+
+1. Fork the repo
+2. Create feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -m 'Add amazing feature'`
+4. Push: `git push origin feature/amazing-feature`
+5. Open PR
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file.
+
+## 🙏 Acknowledgments
+
+- Built for Hacktivate Hackathon
+- Inspired by real-world parcel delivery challenges in universities
+- Thanks to Supabase for amazing backend-as-a-service
+
+## 📞 Support
+
+For issues, email: support@minutemen.app or open a GitHub issue.
+
+---
+
+**MinuteMen** - Making parcel pickup effortless! 📦✨
 
 ### Analyzing the Bundle Size
 
