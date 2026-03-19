@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
+import _ from "lodash";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../../config/supabase.config";
+import { auth } from "../../config/firebase.config";
 import { sendMail } from "./sendMail";
 import { getAllOrders } from "../../services/orderManagement";
 import "./index.css";
 
 const List = ({ data }) => {
-  const role = window.sessionStorage.getItem('role');
-  const canNotify = role === 'guard' || role === 'admin';
-
+  const isSecurity = (window.sessionStorage.getItem("isSecurity")) === "true" ? true : false;
+  
   return (
     <div className="card">
       <div className="left-content">
@@ -17,7 +17,7 @@ const List = ({ data }) => {
           <p className="cardBody">{data.orderId}</p>
         </div>
       </div>
-      {canNotify && (
+      {isSecurity && (
         <div className="right-content">
           <button onClick={() => sendMail(data.userEmail)}>
             <span className="fa-check fa-solid" />
@@ -57,22 +57,15 @@ const HomePage = () => {
           </button>
         </div>
         <div className="ms-5">
-          <button onClick={() => navigate("/me")}>
+          <button onClick={navigate("/me")}>
             <span className="fa-solid fa-user" />
           </button>
         </div>
-        {window.sessionStorage.getItem('role') === 'admin' && (
-          <div className="ms-5">
-            <button onClick={() => navigate("/admin")}>
-              <span className="fa-solid fa-cog" />
-            </button>
-          </div>
-        )}
       </div>
       <div className="bottom-content">
         {data &&
-          data.length > 0 &&
-          data.map((order, i) => <List key={i} data={order} />)}
+          data?.length > 0 &&
+          _.map(data, (order, i) => <List key={i} data={order} />)}
 
         {(!data || data?.length < 1) && (
           <div>
@@ -85,7 +78,7 @@ const HomePage = () => {
 };
 
 async function signout() {
-  await supabase.auth.signOut();
+  await auth?.signOut();
   window.sessionStorage.clear();
   window.location.reload();
   return true;

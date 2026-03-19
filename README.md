@@ -1,9 +1,9 @@
-# MinuteMen - Smart Parcel Notification System
+# TheMinuteMen - Parcel Notification System
 
-[![CircleCI](https://circleci.com/gh/JanetStanmore/HactivateProject.svg?style=svg)](https://circleci.com/gh/JanetStanmore/HactivateProject)
-[![DeepSource](https://deepsource.io/gh/JanetStanmore/HactivateProject.svg/?label=active+issues&show_trend=true)](https://deepsource.io/gh/JanetStanmore/HactivateProject/?ref=repository-badge)
+[![CircleCI](https://circleci.com/gh/JanetStanmore/TheMinuteMen.svg?style=svg)](https://circleci.com/gh/JanetStanmore/TheMinuteMen)
+[![DeepSource](https://deepsource.io/gh/JanetStanmore/TheMinuteMen.svg/?label=active+issues&show_trend=true)](https://deepsource.io/gh/JanetStanmore/TheMinuteMen/?ref=repository-badge)
 
-A modern, secure SaaS platform revolutionizing parcel delivery notifications for university students. Built with React, TypeScript, Tailwind CSS, and Supabase.
+A parcel notification system for university students built with React and Firebase.
 
 ## 🚀 Features
 
@@ -14,20 +14,14 @@ A modern, secure SaaS platform revolutionizing parcel delivery notifications for
 - **Responsive Design**: Works seamlessly on desktop and mobile.
 
 ### For Security Personnel
-- **Admin Dashboard**: Mark parcels as arrived and send notifications.
-- **Order Management**: Full CRUD operations on orders.
-- **User Oversight**: View student orders for efficient delivery.
-
-### For Admins
-- **System Management**: Oversee users, orders, and notifications.
-- **Analytics**: Track delivery metrics (future feature).
+- **Mark Arrivals**: Mark parcels as arrived and send email notifications.
+- **Order Management**: View all pending orders.
 
 ## 🛠 Tech Stack
 
-- **Frontend**: React 18, TypeScript, Tailwind CSS
-- **Backend**: Supabase (PostgreSQL, Auth, Real-time)
+- **Frontend**: React 18
+- **Backend**: Firebase (Auth, Firestore)
 - **Deployment**: Vercel/Netlify (CI/CD with CircleCI)
-- **Code Quality**: ESLint, Prettier, DeepSource
 - **Testing**: Jest, React Testing Library
 
 ## 📦 Installation & Setup
@@ -39,8 +33,8 @@ A modern, secure SaaS platform revolutionizing parcel delivery notifications for
 ### Local Development
 ```bash
 # Clone the repo
-git clone https://github.com/JanetStanmore/HactivateProject.git
-cd HactivateProject
+git clone https://github.com/JanetStanmore/TheMinuteMen.git
+cd TheMinuteMen
 
 # Install dependencies
 npm install

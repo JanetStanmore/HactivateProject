@@ -1,36 +1,43 @@
-import { supabase } from "../config/supabase.config";
+import { auth, db } from "../config/firebase.config";
+
 
 export async function getUserData(userId) {
-  const { data, error } = await supabase.from('users').select('*').eq('userId', userId).single();
-  if (error) return null;
-  return data;
+    
+    const docRef = await db.collection("users").doc(userId).get();
+    
+    if(docRef.exists) {
+        return docRef.data();
+    }
+    return null;
 }
 
-function getRefinedAuthErrorMessage(error) {
-  return error.message.replace('Invalid login credentials', 'Invalid email or password');
-}
+function getRefinedFirebaseAuthErrorMessage(error) {
+    return error
+      .replace('Firebase: ', '')
+      .replace(/\(auth.*\)\.?/, '');
+  }
+
 
 export default async function signInWithEmail(email, password) {
-  try {
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) throw error;
-
-    window.sessionStorage.setItem("userId", data.user.id);
-    const userData = await getUserData(data.user.id);
-
-    window.sessionStorage.setItem("isSecurity", String(userData?.isSecurity === true));
-    window.sessionStorage.setItem("role", userData?.role ?? "student");
-    return {
-      isSuccessful: true,
-      message: "Sign in successful",
-      data: userData
-    };
-  } catch (error) {
-    const errorMessage = getRefinedAuthErrorMessage(error);
-    return {
-      isSuccessful: false,
-      message: errorMessage,
-      data: null
-    };
-  }
+    try {
+       const authData = await auth.signInWithEmailAndPassword(email, password);
+       window.sessionStorage.setItem("userId", authData.user.uid);
+       const userData = await getUserData(authData.user.uid);
+       
+       window.sessionStorage.setItem("isSecurity", userData?.isSecurity || false); 
+       return {
+        isSuccessful: true,
+        message: "Sign in successful",
+        data: userData
+       }
+    } catch (error) {
+        console.log(error.message)
+       const errorMesssage = getRefinedFirebaseAuthErrorMessage(error.message);
+        return {
+            isSuccessful: false,
+            message: errorMesssage,
+            data: null
+        }
+    }
+    
 }

@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Message = (isSuccess, message) => {
   if (isSuccess) {
-    toast.success("Woohooo!! sign up is successful.", {
+    toast.success("Woohooo!! sign in is successful.", {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,

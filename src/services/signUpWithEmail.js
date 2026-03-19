@@ -1,38 +1,30 @@
-import { supabase } from "../config/supabase.config";
+import { auth, db } from "../config/firebase.config";
 
 async function addUserDocument(user) {
-  const { data, error } = await supabase.from('users').insert(user);
-  if (error) throw error;
+  const docRef = db.collection("users").doc(user.userId);
+  await docRef.set(user);
   return true;
 }
 
-export default async function signUpWithEmail(fullName, email, password, isSecurity, role = 'student') {
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      data: { name: fullName, isSecurity }
-    }
-  });
-
-  if (error) {
-    console.error(error);
-    return false;
-  }
-
-  if (data.user) {
-    const userData = {
-      name: fullName,
-      email: data.user.email,
-      userId: data.user.id,
-      isSecurity,
-      role
-    };
-    await addUserDocument(userData);
-    window.sessionStorage.setItem("userId", data.user.id);
-    window.sessionStorage.setItem("isSecurity", String(isSecurity));
-    window.sessionStorage.setItem("role", role);
-    return true;
-  }
-  return false;
+export default function signUpWithEmail(fullName, email, password, isSecurity) {
+  auth
+    .createUserWithEmailAndPassword(email, password)
+    .then((authData) => {
+      if (authData) {
+        const userData = {
+          name: fullName,
+          email: authData?.user?.email,
+          userId: authData?.user?.uid,
+          isSecurity
+        };
+        addUserDocument(userData);
+        window.sessionStorage.setItem("userId", authData?.user.uid);
+        window.sessionStorage.setItem("isSecurity", isSecurity);
+        return true;
+      }
+      return false;
+    })
+    .catch((error) => {
+      return false;
+    });
 }

@@ -9,12 +9,11 @@ const SignupPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSecurity, setIsSecurity] = useState(false);
-  const [role, setRole] = useState("student");
   const [signUpSuccess, setSignUpSuccess] = useState("");
   const navigate = useNavigate();
 
   async function handleSubmit() {
-    const status = await signUpWithEmail(fullName, email, password, isSecurity, role);
+    const status = await signUpWithEmail(fullName, email, password, isSecurity);
     if (status) {
       navigate("/");
       setSignUpSuccess("success");
@@ -47,15 +46,6 @@ const SignupPage = () => {
           <span className="user">Email</span>
         </div>
 
-        <div className="inputBox">
-          <select value={role} onChange={(e) => setRole(e.target.value)} className="form-select">
-            <option value="student">Student</option>
-            <option value="guard">Guard</option>
-            <option value="admin">Admin</option>
-          </select>
-          <span className="user">Role</span>
-        </div>
-
         <div style={{
           display: "flex",
           flexDirection: "row",
@@ -65,7 +55,7 @@ const SignupPage = () => {
           <label>Is Security Personnel ? </label>
           <label className="checkbox-btn ms-5">
             <label htmlFor="checkbox" />
-            <input id="checkbox" type="checkbox" value={isSecurity} onChange={() => setIsSecurity(!isSecurity)} />
+            <input id="checkbox" type="checkbox" value={isSecurity ? "true" : "false"} onChange={() => setIsSecurity(!isSecurity)} />
             <span className="checkmark" />
           </label>
         </div>

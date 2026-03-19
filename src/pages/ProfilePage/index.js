@@ -66,7 +66,7 @@ const ProfilePage = () => {
             value={expectedDate}
             onChange={(e) => setExpectedDate(e.target.value)}
           />
-          <span>EXpected Date</span>
+          <span>Expected Date</span>
         </div>
 
         <button className="enter" onClick={handleSubmit}>
