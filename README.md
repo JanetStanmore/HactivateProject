@@ -1,9 +1,8 @@
-# TheMinuteMen - Parcel Notification System
+# ParcelTracker - Parcel Notification System
 
 [![CircleCI](https://circleci.com/gh/JanetStanmore/TheMinuteMen.svg?style=svg)](https://circleci.com/gh/JanetStanmore/TheMinuteMen)
-[![DeepSource](https://deepsource.io/gh/JanetStanmore/TheMinuteMen.svg/?label=active+issues&show_trend=true)](https://deepsource.io/gh/JanetStanmore/TheMinuteMen/?ref=repository-badge)
 
-A parcel notification system for university students built with React and Firebase.
+A parcel notification system for university students built with React and Supabase.
 
 ## 🚀 Features
 
@@ -20,7 +19,7 @@ A parcel notification system for university students built with React and Fireba
 ## 🛠 Tech Stack
 
 - **Frontend**: React 18
-- **Backend**: Firebase (Auth, Firestore)
+- **Backend**: Supabase (PostgreSQL, Auth)
 - **Deployment**: Vercel/Netlify (CI/CD with CircleCI)
 - **Testing**: Jest, React Testing Library
 
